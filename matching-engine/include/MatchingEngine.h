@@ -33,7 +33,7 @@ namespace  engine {
 
         ObjectPool<Order> orderPool_;
 
-        size_t tradeCount = 0;
-        size_t orderCount = 0;
+        size_t tradeCount_ = 0;
+        size_t orderCount_ = 0;
     };
 }
