@@ -62,7 +62,7 @@ namespace engine {
         void printBook(int depth = 5) const;
 
     private:
-        std::Map<Price, PriceLevel, std::greater<Price>> bids_;
+        std::map<Price, PriceLevel, std::greater<Price> > bids_;
 
         std::map<Price, PriceLevel> asks_;
 
@@ -71,7 +71,7 @@ namespace engine {
         MatchResult matchBuy(Order& order);
         MatchResult matchSell(Order& order);
         void addToAsks(Order* order);
-        void askToBids(Order* order);
+        void addToBids(Order* order);
     };
 
 }

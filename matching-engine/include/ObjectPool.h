@@ -65,9 +65,9 @@ namespace engine {
             size_--;
         }
 
-        size_t size() const { return size; };
+        size_t size() const { return size_; };
         size_t capacity() const { return capacity_; };
-        size available() const { return freeSlots_.size(); }
+        size_t available() const { return freeSlots_.size(); }
 
     private:
         T* storage_;
