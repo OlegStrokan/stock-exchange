@@ -152,7 +152,7 @@ namespace engine {
 
     std::optional<Price> OrderBook::bestBid() const {
         if (bids_.empty()) return std::nullopt;
-        return asks_.begin()->first;
+        return bids_.begin()->first;
     }
 
     std::optional<Price> OrderBook::spread() const {
