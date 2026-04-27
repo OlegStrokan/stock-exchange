@@ -38,7 +38,7 @@ namespace engine {
             return false;
         }
 
-        Order* order = it->second;
+        Order* order = iterator->second;
 
         if (order->side == Side::Buy) {
             auto levelIterator = bids_.find(order->price);
@@ -49,8 +49,8 @@ namespace engine {
                 }
             }
         } else {
-            auto levelIterator = bids_.find(order->price);
-            if (levelIterator != bids_.end()) {
+            auto levelIterator =asks_.find(order->price);
+            if (levelIterator != asks_.end()) {
                 levelIterator->second.removeOrder(order);
                 if (levelIterator->second.empty()) {
                     asks_.erase(levelIterator);
@@ -75,6 +75,7 @@ namespace engine {
     MatchResult OrderBook::matchBuy(Order &order) {
         MatchResult result;
 
+        // outer check - quick exit, inner check - result
         while (!asks_.empty() && order.remaining > 0) {
             auto& [askPrice, level] = *asks_.begin();
 
@@ -114,7 +115,11 @@ namespace engine {
         while (!bids_.empty() && order.remaining > 0) {
             auto& [bidPrice, level] = *bids_.begin();
 
-            if (order.type == OrderType::Limit && order.price > 0) {
+            if (order.type == OrderType::Limit && order.price > bidPrice) {
+                break;
+            }
+
+            while (!level.orders.empty() && order.remaining > 0) {
                 Order* restingOrder = level.orders.front();
 
                 Quantity fillQuantity = std::min(order.remaining, restingOrder->remaining);
@@ -131,6 +136,7 @@ namespace engine {
                     result.filledOrders.push_back(restingOrder);
                 }
             }
+
             if (level.empty()) {
                 bids_.erase(bids_.begin());
             }
@@ -145,8 +151,8 @@ namespace engine {
     }
 
     std::optional<Price> OrderBook::bestBid() const {
-        if (bids_empty()) return std::nullopt;
-        return asks_begin()->first;
+        if (bids_.empty()) return std::nullopt;
+        return asks_.begin()->first;
     }
 
     std::optional<Price> OrderBook::spread() const {

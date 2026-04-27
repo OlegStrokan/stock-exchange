@@ -7,4 +7,7 @@ something drastically different from eventual consistency and idempotent sagas w
 - no dynamic heap allocation because we don't do dirty bulk
 - no architecture in the benchmarks - just the raw power of tits
 
+## requirements:
+- single-threaded per symbol partition, deterministic state machine, append-only sequenced input
+
 ### We don’t just process orders, we PR them
