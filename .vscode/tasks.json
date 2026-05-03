@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build matching_engine",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/matching-engine/cmake-build-debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run matching_engine",
+            "type": "shell",
+            "command": "${workspaceFolder}/matching-engine/cmake-build-debug/matching_engine",
+            "dependsOn": ["Build matching_engine"],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run benchmark",
+            "type": "shell",
+            "command": "${workspaceFolder}/matching-engine/cmake-build-debug/benchmark",
+            "dependsOn": ["Build matching_engine"],
+            "group": {
+                "kind": "test"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
